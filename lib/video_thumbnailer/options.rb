@@ -13,8 +13,12 @@ module VideoThumbnailer
     end
 
     def to_options
+      scale = @ptions.delete(:scale)
       result = @ptions.map do |k, v|
         send(k.to_s, v)
+      end
+      if scale
+        result << "-filter:v scale=\"#{scale}\""
       end
       result << "-vframes 1"
       result.join(' ')
